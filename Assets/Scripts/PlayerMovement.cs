@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ceiling Check")]
     [SerializeField] private Transform ceilingCheck;
-    [SerializeField] private float ceilingCheckRadius = 0.08f;
+    [SerializeField] private float ceilingCheckRadius = 0.06f;
 
     [Header("Sprite Swap")]
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -29,11 +29,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 crouchingColliderSize = new Vector2(0.15f, 0.2f);
     [SerializeField] private Vector2 crouchingColliderOffset = new Vector2(0f, 0.1f);
 
+    [Header("Direction")]
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform directionIndicator;
+
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     private bool isGrounded;
     private bool isCrouching;
     private float moveInput;
+    private bool facingRight = true;
+
+    public bool FacingRight => facingRight;
+    public Transform FirePoint => firePoint;
+    public bool IsCrouching => isCrouching;
 
     private void Awake()
     {
@@ -41,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
 
         SetStandingState();
+        UpdateFacingVisuals();
     }
 
     private void Update()
@@ -51,6 +61,13 @@ public class PlayerMovement : MonoBehaviour
             moveInput = -1f;
         else if (Input.GetKey(KeyCode.D))
             moveInput = 1f;
+
+        if (moveInput < 0f)
+            facingRight = false;
+        else if (moveInput > 0f)
+            facingRight = true;
+
+        UpdateFacingVisuals();
 
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
@@ -127,6 +144,23 @@ public class PlayerMovement : MonoBehaviour
         {
             boxCollider.size = crouchingColliderSize;
             boxCollider.offset = crouchingColliderOffset;
+        }
+    }
+
+    private void UpdateFacingVisuals()
+    {
+        if (firePoint != null)
+        {
+            Vector3 pos = firePoint.localPosition;
+            pos.x = Mathf.Abs(pos.x) * (facingRight ? 1f : -1f);
+            firePoint.localPosition = pos;
+        }
+
+        if (directionIndicator != null)
+        {
+            Vector3 pos = directionIndicator.localPosition;
+            pos.x = Mathf.Abs(pos.x) * (facingRight ? 1f : -1f);
+            directionIndicator.localPosition = pos;
         }
     }
 

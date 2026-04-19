@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - BreakableWall
   - JumpableWall
+  - Spike
   layers:
   - Default
   - TransparentFX
