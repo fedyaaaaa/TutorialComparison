@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4990876996005660818}
   - component: {fileID: 7805019404118289136}
   - component: {fileID: 5430824928211134750}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: jumpablewall
-  m_TagString: Untagged
+  m_TagString: JumpableWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
