@@ -1,10 +1,10 @@
 using UnityEngine;
+using System.Collections;
 
-[RequireComponent(typeof(Collider2D))]
 public class DisappearingPlatform : MonoBehaviour
 {
     [Header("Timing")]
-    [SerializeField] private float disappearDelay = 0.5f;
+    [SerializeField] private float disappearDelay = 0.15f;
 
     [Header("References")]
     [SerializeField] private Collider2D platformCollider;
@@ -12,24 +12,24 @@ public class DisappearingPlatform : MonoBehaviour
 
     private bool isTriggered = false;
 
-    private void Reset()
+    private void Awake()
     {
-        platformCollider = GetComponent<Collider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (platformCollider == null)
+            platformCollider = GetComponent<Collider2D>();
+
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void TriggerDisappear()
     {
         if (isTriggered)
             return;
 
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            StartCoroutine(DisappearRoutine());
-        }
+        StartCoroutine(DisappearRoutine());
     }
 
-    private System.Collections.IEnumerator DisappearRoutine()
+    private IEnumerator DisappearRoutine()
     {
         isTriggered = true;
 

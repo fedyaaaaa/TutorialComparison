@@ -23,6 +23,10 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
+        // Prevent shooting while paused
+        if (Time.timeScale == 0f)
+            return;
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("F was pressed.");

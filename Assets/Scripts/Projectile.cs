@@ -22,10 +22,16 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb != null)
+        if (rb == null)
+            return;
+
+        if (Time.timeScale == 0f)
         {
-            rb.linearVelocity = new Vector2(direction * moveSpeed, 0f);
+            rb.linearVelocity = Vector2.zero;
+            return;
         }
+
+        rb.linearVelocity = new Vector2(direction * moveSpeed, 0f);
     }
 
     public void SetDirection(float newDirection)
@@ -39,11 +45,15 @@ public class Projectile : MonoBehaviour
         if (other.CompareTag("Player"))
             return;
 
+        // Ignore flagpole
+        if (other.CompareTag("flagpole"))
+            return;
+
         // Ignore camera bounds
         if (other.name == "CameraBounds")
             return;
 
-        // Breakable wall (transparency system)
+        // Breakable wall
         BreakableWall wall = other.GetComponent<BreakableWall>();
         if (wall != null)
         {

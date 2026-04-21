@@ -76,6 +76,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0f)
+        {
+            moveInput = 0f;
+
+            if (isCrouching && CanStandUp())
+            {
+                SetStandingState();
+            }
+
+            return;
+        }
+
         moveInput = 0f;
 
         if (Input.GetKey(KeyCode.A))
@@ -136,6 +148,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Time.timeScale == 0f)
+        {
+            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            return;
+        }
+
         float currentSpeed = isCrouching ? crouchMoveSpeed : moveSpeed;
 
         if (wallJumpLockCounter > 0f)
