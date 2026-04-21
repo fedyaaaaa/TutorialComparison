@@ -11,6 +11,9 @@ public class PauseMenu : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button resumeButton;
 
+    [Header("Scene Names")]
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
+
     private bool isPaused = false;
     private bool isPlayerDead = false;
 
@@ -35,18 +38,15 @@ public class PauseMenu : MonoBehaviour
             }
             else
             {
-                // If player is dead, ESC should not resume the game
                 if (isPlayerDead)
                 {
                     if (controlsPanel != null && controlsPanel.activeSelf)
                     {
                         ShowPausePanel();
                     }
-
                     return;
                 }
 
-                // If controls panel is open, ESC returns to pause panel
                 if (controlsPanel != null && controlsPanel.activeSelf)
                 {
                     ShowPausePanel();
@@ -114,6 +114,17 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // 🟢 NEW FUNCTION
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+
+        // Optional but recommended (prevents checkpoint carry-over)
+        CheckpointSave.ClearCheckpoint();
+
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     public void HandlePlayerDeath()
