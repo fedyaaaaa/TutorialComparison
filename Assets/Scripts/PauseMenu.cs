@@ -8,6 +8,11 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject controlsPanel;
 
+    [Header("Title Texts")]
+    [SerializeField] private GameObject pausedText;
+    [SerializeField] private GameObject deathText;
+    [SerializeField] private GameObject controlsText;
+
     [Header("Buttons")]
     [SerializeField] private Button resumeButton;
 
@@ -26,6 +31,15 @@ public class PauseMenu : MonoBehaviour
 
         if (controlsPanel != null)
             controlsPanel.SetActive(false);
+
+        if (pausedText != null)
+            pausedText.SetActive(true);
+
+        if (deathText != null)
+            deathText.SetActive(false);
+
+        if (controlsText != null)
+            controlsText.SetActive(false);
     }
 
     private void Update()
@@ -72,6 +86,15 @@ public class PauseMenu : MonoBehaviour
 
         if (resumeButton != null)
             resumeButton.interactable = !isPlayerDead;
+
+        if (pausedText != null)
+            pausedText.SetActive(true);
+
+        if (deathText != null)
+            deathText.SetActive(false);
+
+        if (controlsText != null)
+            controlsText.SetActive(false);
     }
 
     public void ResumeGame()
@@ -96,6 +119,15 @@ public class PauseMenu : MonoBehaviour
 
         if (controlsPanel != null)
             controlsPanel.SetActive(true);
+
+        if (pausedText != null)
+            pausedText.SetActive(false);
+
+        if (deathText != null)
+            deathText.SetActive(false);
+
+        if (controlsText != null)
+            controlsText.SetActive(true);
     }
 
     public void ShowPausePanel()
@@ -108,6 +140,29 @@ public class PauseMenu : MonoBehaviour
 
         if (resumeButton != null)
             resumeButton.interactable = !isPlayerDead;
+
+        if (isPlayerDead)
+        {
+            if (pausedText != null)
+                pausedText.SetActive(false);
+
+            if (deathText != null)
+                deathText.SetActive(true);
+
+            if (controlsText != null)
+                controlsText.SetActive(false);
+        }
+        else
+        {
+            if (pausedText != null)
+                pausedText.SetActive(true);
+
+            if (deathText != null)
+                deathText.SetActive(false);
+
+            if (controlsText != null)
+                controlsText.SetActive(false);
+        }
     }
 
     public void RestartScene()
@@ -116,14 +171,10 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // 🟢 NEW FUNCTION
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
-
-        // Optional but recommended (prevents checkpoint carry-over)
         CheckpointSave.ClearCheckpoint();
-
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
@@ -141,5 +192,14 @@ public class PauseMenu : MonoBehaviour
 
         if (resumeButton != null)
             resumeButton.interactable = false;
+
+        if (pausedText != null)
+            pausedText.SetActive(false);
+
+        if (deathText != null)
+            deathText.SetActive(true);
+
+        if (controlsText != null)
+            controlsText.SetActive(false);
     }
 }

@@ -12,6 +12,16 @@ public class DisappearingPlatformTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        TryTrigger(other);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        TryTrigger(other);
+    }
+
+    private void TryTrigger(Collider2D other)
+    {
         if (!other.CompareTag("Player"))
             return;
 
